@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags %}
+
+{% block body_class %}template-formulaire{% endblock %}
+
+{% block content %}
+<div class="section section--claire">
+  <div class="section__inner formulaire">
+
+    <h2 class="formulaire__titre">{{ page.title }}</h2>
+
+    {% if page.intro %}
+      <div class="formulaire__intro">{{ page.intro|richtext }}</div>
+    {% endif %}
+
+    <form action="{% pageurl page %}" method="post" class="formulaire__form">
+      {% csrf_token %}
+
+      {% if form.non_field_errors %}
+        <div class="formulaire__erreurs">{{ form.non_field_errors }}</div>
+      {% endif %}
+
+      {% for field in form %}
+        <div class="formulaire__champ{% if field.field.widget.input_type == 'checkbox' %} formulaire__champ--case{% endif %}">
+          {% if field.field.widget.input_type == 'checkbox' %}
+            {{ field }}
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+          {% else %}
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+          {% endif %}
+
+          {% if field.help_text %}
+            <p class="formulaire__aide">{{ field.help_text }}</p>
+          {% endif %}
+          {% if field.errors %}
+            <p class="formulaire__erreur">{{ field.errors|join:" " }}</p>
+          {% endif %}
+        </div>
+      {% endfor %}
+
+      <button type="submit" class="bouton">Envoyer</button>
+    </form>
+    <p class="formulaire__rgpd">
+      Les informations saisies (nom, prénom, e-mail, sujet et message) servent uniquement à répondre à votre demande et ne sont utilisées pour aucun autre usage. Elles sont conservées 3 ans maximum.
+      {% if footer.email_contact %}
+        Pour consulter, corriger ou supprimer vos données, écrivez à
+        <a href="mailto:{{ footer.email_contact }}">{{ footer.email_contact }}</a>.
+      {% endif %}
+      {% if footer.page_mentions_legales %}
+        En savoir plus : <a href="{% pageurl footer.page_mentions_legales %}">mentions légales et politique de confidentialité</a>.
+      {% endif %}
+    </p>
+
+  </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags %}
+
+{% block body_class %}template-contact{% endblock %}
+
+{% block content %}
+<div class="section section--claire">
+  <div class="section__inner contact">
+
+    <h2 class="contact__titre">{{ page.title }}</h2>
+
+    {% for bloc in page.body %}
+      {% if bloc.block_type == "sous_titre" %}
+        <h3 class="contact__sous-titre">{{ bloc.value }}</h3>
+
+      {% elif bloc.block_type == "paragraphe" %}
+        <div class="contact__paragraphe">{{ bloc.value|richtext }}</div>
+
+      {% elif bloc.block_type == "bouton" %}
+        <p>
+          <a class="bouton"
+             {% if bloc.value.page %}href="{% pageurl bloc.value.page %}"
+             {% else %}href="{{ bloc.value.url_externe }}" target="_blank" rel="noopener"{% endif %}>
+            {{ bloc.value.titre }}
+          </a>
+        </p>
+      {% endif %}
+    {% endfor %}
+
+  </div>
+</div>
+{% endblock content %}

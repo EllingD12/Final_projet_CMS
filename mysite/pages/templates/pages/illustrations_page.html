@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% load static wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}template-illustration{% endblock %}
+
+
+{% block content %}
+
+  {# ---------- En-tête de la page ---------- #}
+  <div class="section section--claire">
+    <div class="section__inner illustration-hero">
+      
+
+    <h2 class="illustration-hero__titre">{{ page.title }}</h2>
+
+{% if page.image_couverture %}
+  {% image page.image_couverture width-800 as couv %}
+    <img class="illustration-hero__image" src="{{ couv.url }}" width="{{ couv.width }}" height="{{ couv.height }}" alt="{{ page.image_couverture.title }}">
+{% endif %}
+
+{% if page.liste_mots_cles %}
+    <ul class="mots-cles">
+{% for mot in page.liste_mots_cles %}
+    <li>{{ mot }}</li>
+{% endfor %}
+    </ul>
+{% endif %}
+
+    </div>
+</div>    
+
+  {# ---------- Contenu : une section par titre ---------- #}
+  {% for bloc in page.body %}
+
+    {% if bloc.block_type == "titre" %}
+      {% if not forloop.first %}</div></div>{% endif %}
+      <div class="section section--{% cycle 'orange' 'claire' %}"><div class="section__inner">
+    {% elif forloop.first %}
+      <div class="section section--claire"><div class="section__inner">
+    {% endif %}
+
+    <section class="bloc bloc--{{ bloc.block_type }}">
+
+      {% if bloc.block_type == "titre" %}
+        <h3>{{ bloc.value }}</h3>
+
+      {% elif bloc.block_type == "texte" %}
+        {{ bloc.value|richtext }}
+
+      {% elif bloc.block_type == "image" %}
+        {% image bloc.value width-1000 as img %}
+        <img src="{{ img.url }}" width="{{ img.width }}" height="{{ img.height }}" alt="{{ bloc.value.title }}">
+
+      {% elif bloc.block_type == "galerie_boutons" %}
+        <div class="galerie">
+          {% for item in bloc.value %}
+            <figure class="galerie__item">
+              {% image item.image width-500 as img %}
+              <img src="{{ img.url }}" width="{{ img.width }}" height="{{ img.height }}"
+                   alt="{{ item.legende|default:item.image.title }}">
+
+              {% if item.legende %}
+                <figcaption>{{ item.legende }}</figcaption>
+              {% endif %}
+
+              {% if item.bouton_titre and item.page %}
+                <a class="bouton" href="{% pageurl item.page %}">{{ item.bouton_titre }}</a>
+              {% elif item.bouton_titre and item.url_externe %}
+                <a class="bouton" href="{{ item.url_externe }}" target="_blank" rel="noopener">{{ item.bouton_titre }}</a>
+              {% endif %}
+            </figure>
+          {% endfor %}
+        </div>
+
+      {% elif bloc.block_type == "bouton" %}
+        <a class="bouton"
+           {% if bloc.value.page %}href="{% pageurl bloc.value.page %}"
+           {% else %}href="{{ bloc.value.url_externe }}" target="_blank" rel="noopener"{% endif %}>
+          {{ bloc.value.titre }}
+        </a>
+      {% endif %}
+
+    </section>
+
+  {% endfor %}
+
+  {% if page.body %}
+    </div></div>
+  {% endif %}
+
+{% endblock content %}

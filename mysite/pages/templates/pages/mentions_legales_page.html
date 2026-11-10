@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags %}
+
+{% block body_class %}template-mentions{% endblock %}
+
+{% block content %}
+<div class="section section--claire">
+  <div class="section__inner mentions">
+
+    <h2 class="mentions__titre">{{ page.title }}</h2>
+
+    <div class="mentions__contenu">
+      {{ page.contenu|richtext }}
+    </div>
+
+  </div>
+</div>
+{% endblock content %}

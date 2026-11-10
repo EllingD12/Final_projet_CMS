@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags %}
+
+{% block body_class %}template-formulaire{% endblock %}
+
+{% block content %}
+<div class="section section--claire">
+  <div class="section__inner formulaire">
+
+    <h2 class="formulaire__titre">Merci !</h2>
+
+    {% if page.texte_merci %}
+      <div class="formulaire__intro">{{ page.texte_merci|richtext }}</div>
+    {% else %}
+      <p class="formulaire__intro">Votre message a bien été envoyé.</p>
+    {% endif %}
+
+    <a class="bouton" href="/">Retour à l'accueil</a>
+
+  </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block body_class %}template-galerie{% endblock %}
+
+{% block content %}
+<div class="section section--claire">
+  <div class="section__inner galerie-page">
+
+    <h2 class="galerie-page__titre">{{ page.title }}</h2>
+
+    <div class="galerie">
+      {% for bloc in page.galerie %}
+        {% with item=bloc.value %}
+          <figure class="galerie__item">
+            {% image item.image width-900 as img %}
+            <img src="{{ img.url }}" width="{{ img.width }}" height="{{ img.height }}"
+                 alt="{{ item.legende|default:item.image.title }}">
+
+            {% if item.legende %}
+              <figcaption>{{ item.legende }}</figcaption>
+            {% endif %}
+
+            {% if item.bouton_titre and item.page %}
+              <a class="bouton" href="{% pageurl item.page %}">{{ item.bouton_titre }}</a>
+            {% elif item.bouton_titre and item.url_externe %}
+              <a class="bouton" href="{{ item.url_externe }}" target="_blank" rel="noopener">{{ item.bouton_titre }}</a>
+            {% endif %}
+          </figure>
+        {% endwith %}
+      {% endfor %}
+    </div>
+
+  </div>
+</div>
+{% endblock content %}
