@@ -2,30 +2,30 @@
 <!DOCTYPE html>
 <html lang="fr">
     <head>
-        <meta charset="utf-8" />
-        <title>
-            {% block title %}
-            {% if page.seo_title %}{{ page.seo_title }}{% else %}{{ page.title }}{% endif %}
-            {% endblock %}
-            {% block title_suffix %}
+    <meta charset="utf-8" />
+    <title>
+        {% block title %}{% if page.seo_title %}{{ page.seo_title }}{% else %}{{ page.title }}{% endif %}{% endblock %}
+        {% block title_suffix %}
             {% wagtail_site as current_site %}
             {% if current_site and current_site.site_name %}- {{ current_site.site_name }}{% endif %}
-            {% endblock %}
-        </title>
-        {% if page.search_description %}
-        <meta name="description" content="{{ page.search_description }}" />
-        {% endif %}
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        {% endblock %}
+    </title>
 
-        {% if request.in_preview_panel %}
-        <base target="_blank">
-        {% endif %}
+    {% if page.search_description %}
+    <meta name="description" content="{{ page.search_description }}" />
+    {% endif %}
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    {% if request.in_preview_panel %}
+    <base target="_blank">
+    {% endif %}
 
         {# Global stylesheets #}
-        <link rel="stylesheet" type="text/css" href="{% static 'css/mysite.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/mysite.css' %}">
 
-        {% block extra_css %}
-        {% endblock %}
+    {% block extra_css %}
+    {% endblock %}
     </head>
 
     <body class="{% block body_class %}{% endblock %}">
@@ -41,9 +41,9 @@
                 {% endif %}
             </a>
 
-            <h1 class="site-header__titre">Les petits crayons</h1>
+            <h1 class="site-header__titre">Les petits crayons de Heldé</h1>
 
-            <input type="checkbox" id="menu-toggle" class="site-header__toggle">
+            <input type="checkbox" id="menu-toggle" class="site-header__toggle" aria-label="Ouvrir ou fermer le menu">
             <label for="menu-toggle" class="site-header__burger">
                 <span class="sr-only">Ouvrir ou fermer le menu</span>
             </label>
@@ -64,7 +64,9 @@
         </header>
         {% endif %}
         {% include "pages/bouton_retour.html" %}
+        <main id="contenu">
         {% block content %}{% endblock %}
+        </main>
             {% if footer %}
 <footer class="site-footer">
   <div class="site-footer__haut">

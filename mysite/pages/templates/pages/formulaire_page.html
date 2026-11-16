@@ -17,7 +17,9 @@
       {% csrf_token %}
 
       {% if form.non_field_errors %}
-        <div class="formulaire__erreurs">{{ form.non_field_errors }}</div>
+        <div class="formulaire__erreurs" role="alert">
+          {{ form.non_field_errors }}
+        </div>
       {% endif %}
 
       {% for field in form %}
@@ -38,17 +40,15 @@
           {% endif %}
         </div>
       {% endfor %}
-
+      
       <button type="submit" class="bouton">Envoyer</button>
     </form>
+
     <p class="formulaire__rgpd">
       Les informations saisies (nom, prénom, e-mail, sujet et message) servent uniquement à répondre à votre demande et ne sont utilisées pour aucun autre usage. Elles sont conservées 3 ans maximum.
-      {% if footer.email_contact %}
+      {% if footer.email %}
         Pour consulter, corriger ou supprimer vos données, écrivez à
-        <a href="mailto:{{ footer.email_contact }}">{{ footer.email_contact }}</a>.
-      {% endif %}
-      {% if footer.page_mentions_legales %}
-        En savoir plus : <a href="{% pageurl footer.page_mentions_legales %}">mentions légales et politique de confidentialité</a>.
+        <a href="mailto:{{ footer.email }}">{{ footer.email }}</a>.
       {% endif %}
     </p>
 

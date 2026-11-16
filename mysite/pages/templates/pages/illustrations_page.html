@@ -64,7 +64,7 @@
               {% endif %}
 
               {% if item.bouton_titre and item.page %}
-                <a class="bouton" href="{% pageurl item.page %}">{{ item.bouton_titre }}</a>
+                <a href="{% pageurl univers %}" aria-label="En savoir plus sur {{ univers.title }}">En savoir plus</a>
               {% elif item.bouton_titre and item.url_externe %}
                 <a class="bouton" href="{{ item.url_externe }}" target="_blank" rel="noopener">{{ item.bouton_titre }}</a>
               {% endif %}

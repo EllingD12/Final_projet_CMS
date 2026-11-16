@@ -97,9 +97,10 @@ body {
   outline-offset: 2px;
 }
 .site-header__toggle {
-  position: absolute;
-  opacity: 0;
-  pointer-events: none;
+  position: absolute; 
+  opacity: 0; 
+  width: 1px; 
+  height: 1px;
 }
 .site-header__burger {
   display: none;
@@ -470,6 +471,11 @@ body.template-formulaire .formulaire__intro {
 }
 body.template-formulaire .formulaire__champ {
   margin-bottom: 1.1rem;
+}
+body.template-formulaire .formulaire__champ:not(.formulaire__champ--case) {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
 }
 body.template-formulaire .formulaire__champ label {
   display: block;
